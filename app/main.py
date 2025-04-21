@@ -5,10 +5,11 @@ from app.api import router
 
 app = FastAPI(title="Company Summarizer API")
 
-# Serve openapi.json at the standard GPT location
+# Serves openapi.json from the app folder
 @app.get("/.well-known/openapi.json", include_in_schema=False)
-def serve_openapi_spec():
-    return FileResponse(os.path.join(os.getcwd(), "openapi.json"), media_type="application/json")
+def serve_openapi():
+    file_path = os.path.join(os.path.dirname(__file__), "openapi.json")
+    return FileResponse(file_path, media_type="application/json")
 
-# Include your main API router
+# Include your API router
 app.include_router(router)
