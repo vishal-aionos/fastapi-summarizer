@@ -7,7 +7,7 @@ import os
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
 def search_pdfs(company_name: str):
-    query = f"{company_name} analyst reports or credit rating reports or earnings report filetype:pdf"
+    query = f"{company_name} ("analyst reports" or "credit rating reports" or "earnings report") filetype:pdf"
 
     search = GoogleSearch({
         "q": query,
