@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+boto3
+requests
+pdfplumber
+google-generativeai
+python-dotenv
+serpapi
