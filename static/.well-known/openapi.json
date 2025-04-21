@@ -1,17 +1,25 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "Company Summarizer API",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "description": "Fetches financial summaries of public companies using PDF earnings reports."
   },
+  "servers": [
+    {
+      "url": "https://company-summarizer.onrender.com"
+    }
+  ],
   "paths": {
     "/summarize": {
       "get": {
-        "summary": "Get summary for a given company",
+        "summary": "Summarize Company Earnings",
+        "operationId": "summarizeCompany",
         "parameters": [
           {
             "name": "company",
             "in": "query",
+            "description": "Name of the company to summarize",
             "required": true,
             "schema": {
               "type": "string"
@@ -20,14 +28,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Summary of the company",
+            "description": "Company financial summary",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "summary": {
-                      "type": "string"
+                    "company": { "type": "string" },
+                    "summary": { "type": "string" },
+                    "source_links": {
+                      "type": "array",
+                      "items": { "type": "string", "format": "uri" }
                     }
                   }
                 }
