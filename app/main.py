@@ -1,16 +1,16 @@
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
-import os
 from app.api import router
+from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI(title="Company Summarizer API")
 
-# ✅ Route to serve the OpenAPI spec
-@app.get("/.well-known/openapi.json", include_in_schema=False)
-def serve_openapi():
-    current_dir = os.path.dirname(__file__)
-    file_path = os.path.join(current_dir, "openapi.json")
-    return FileResponse(file_path, media_type="application/json")
-
-# Include your actual endpoints
+# Include API routes
 app.include_router(router)
+
+# Serve static OpenAPI schema
+app.mount(
+    "/.well-known",
+    StaticFiles(directory=os.path.join("static", ".well-known")),
+    name="well-known",
+)
