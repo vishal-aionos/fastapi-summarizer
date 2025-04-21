@@ -1,6 +1,7 @@
 fastapi
 uvicorn
 serpapi
+google-search-results
 boto3
 requests
 pdfplumber
