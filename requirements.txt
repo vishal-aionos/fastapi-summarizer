@@ -1,8 +1,9 @@
 fastapi
 uvicorn
+serpapi
 boto3
 requests
 pdfplumber
 google-generativeai
 python-dotenv
-serpapi
+
