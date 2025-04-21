@@ -6,14 +6,14 @@ services:
     startCommand: "uvicorn app.main:app --host 0.0.0.0 --port 10000"
     envVars:
       - key: AWS_ACCESS_KEY_ID
-        value: your-aws-access-key
+        value: AKIAT4GVROS5UZBT2KMO
       - key: AWS_SECRET_ACCESS_KEY
-        value: your-aws-secret-key
+        value: Qdc8jFmk6p6ZpfIF0AI0v1889zAO9n16s3ZJGICl
       - key: AWS_REGION
-        value: your-region
+        value: ap-south-1
       - key: AWS_S3_BUCKET
-        value: your-bucket-name
+        value: poc-financial
       - key: GEMINI_API_KEY
-        value: your-gemini-api-key
+        value: AIzaSyAgKdmYgZg-_jVt9wDqDgKPd2ow_OKGrgU
       - key: SERPAPI_API_KEY
-        value: your-serpapi-key
+        value: 689ad2bc864d1784825f77fbbac3fabefe4c1085db55305bb5ab994184c53d6d
