@@ -2,6 +2,8 @@
 import pdfplumber
 from typing import Union
 from io import BytesIO
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, message="CropBox missing from /Page")
 
 def extract_text_from_pdf(pdf_file: Union[str, BytesIO]) -> str:
     text = ""
