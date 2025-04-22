@@ -1,10 +1,10 @@
 fastapi
 uvicorn
 serpapi
+pymupdf
 google-search-results
 boto3
 requests
-pymupdf
 google-generativeai
 python-dotenv
 

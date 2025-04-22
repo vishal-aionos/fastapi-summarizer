@@ -1,13 +1,20 @@
-# app/pdf_utils.py
-import pdfplumber
+# # app/pdf_utils.py
+
+import fitz  # PyMuPDF
 from typing import Union
 from io import BytesIO
-import warnings
-warnings.filterwarnings("ignore", category=UserWarning, message="CropBox missing from /Page")
 
 def extract_text_from_pdf(pdf_file: Union[str, BytesIO]) -> str:
     text = ""
-    with pdfplumber.open(pdf_file) as pdf:
-        for page in pdf.pages:
-            text += page.extract_text() or ""
+    # Open the document from path or in-memory BytesIO
+    doc = fitz.open(stream=pdf_file, filetype="pdf") if isinstance(pdf_file, BytesIO) else fitz.open(pdf_file)
+
+    for page in doc:
+        # Explicitly set the cropbox to match mediabox to avoid fallback/render issues
+        mediabox = page.rect
+        page.set_cropbox(mediabox)
+
+        # Extract text
+        text += page.get_text()
+
     return text
