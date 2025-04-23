@@ -1,3 +1,4 @@
+# --- scraper.py ---
 from serpapi import GoogleSearch
 from dotenv import load_dotenv
 import os
@@ -6,29 +7,39 @@ load_dotenv()
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
 def search_pdfs(company_name: str):
-    queries = {
-        "earnings": f"{company_name} earnings report filetype:pdf",
-        "annual": f"{company_name} annual report filetype:pdf"
-    }
+    query = f"{company_name} earnings OR annual report filetype:pdf"
 
-    results = {}
+    search = GoogleSearch({
+        "q": query,
+        "api_key": SERPAPI_API_KEY,
+        "num": 10
+    })
 
-    for report_type, query in queries.items():
-        search = GoogleSearch({
-            "q": query,
-            "api_key": SERPAPI_API_KEY,
-            "num": 5
-        })
+    results = search.get_dict()
+    pdf_links = []
 
-        search_results = search.get_dict()
-        pdf_links = []
+    for result in results.get("organic_results", []):
+        link = result.get("link")
+        if link and link.lower().endswith(".pdf"):
+            pdf_links.append(link)
 
-        for result in search_results.get("organic_results", []):
-            link = result.get("link")
-            if link and link.lower().endswith(".pdf"):
-                pdf_links.append(link)
+    return pdf_links
 
-        # Take the first valid PDF
-        results[report_type] = pdf_links[0] if pdf_links else None
+def fallback_search_articles(company_name: str):
+    query = f"{company_name} earnings OR annual report site:moneycontrol.com OR site:reuters.com OR site:business-standard.com"
 
-    return results
+    search = GoogleSearch({
+        "q": query,
+        "api_key": SERPAPI_API_KEY,
+        "num": 5
+    })
+
+    results = search.get_dict()
+    links = []
+
+    for result in results.get("organic_results", []):
+        link = result.get("link")
+        if link:
+            links.append(link)
+
+    return links
