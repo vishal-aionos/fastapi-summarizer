@@ -9,13 +9,13 @@ def summarize(company: str):
 
     summaries = [
         item["summary"]
-        for item in data["results"]
+        for item in data["reports"]
         if "summary" in item
     ]
 
     source_links = [
         item["pdf_url"]
-        for item in data["results"]
+        for item in data["reports"]
         if "pdf_url" in item
     ]
 

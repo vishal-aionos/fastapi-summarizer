@@ -9,7 +9,16 @@ def process_company(company_name: str):
     pdf_links = search_pdfs(company_name)
     summaries = []
 
-    for link in pdf_links[:2]:
+    for report_type in ["earnings", "annual"]:
+        link = pdf_links.get(report_type)
+
+        if not link:
+            summaries.append({
+                "report_type": report_type,
+                "error": "No PDF link found for this report type"
+            })
+            continue
+
         try:
             pdf_res = requests.get(link)
             pdf_res.raise_for_status()
@@ -20,17 +29,19 @@ def process_company(company_name: str):
             s3_uri = download_and_upload_pdf(link, company_name)
 
             summaries.append({
+                "report_type": report_type,
                 "pdf_url": link,
                 "s3_location": s3_uri,
                 "summary": summary
             })
         except Exception as e:
             summaries.append({
+                "report_type": report_type,
                 "pdf_url": link,
                 "error": str(e)
             })
 
     return {
         "company": company_name,
-        "results": summaries
+        "reports": summaries
     }
